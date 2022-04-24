@@ -118,3 +118,7 @@
 .form label {
   display: block;
 }
+
+.warning {
+  color: #D0342C;
+}

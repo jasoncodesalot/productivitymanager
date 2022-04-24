@@ -1,0 +1,35 @@
+/*Header*/
+.header_container {
+  justify-content: space-between;
+  background-color: #2e2e2e;
+  color: #ffffff;
+  height: 70px;
+  width: 100%;
+  margin: 0 auto;
+  overflow: auto;
+  padding: 0 70px;
+}
+.button {
+  background-color: #2e2e2e;
+  color: #ffffff;
+  text-allign: center;
+  border: none;
+  cursor: pointer;
+}
+.header button:hover {
+  border-bottom: 4px #ffffff solid;
+}
+
+/*Project Display*/
+.project_container {
+  backgound-color: #9ac3f9;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  position: center;
+  margin: 30px;
+  top: 20px;
+  height: relative;
+  width: 500px;
+  padding: 30px;
+  z-index: 100;
+}

@@ -2,15 +2,15 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Router from 'next/router';
+import { useState } from 'react';
+
+
 
 export default function Home() {
-  const data = {
-    username: '',
-    password: ''
-  }
-  const handleSubmit = event => {
+  const [errorMsg, setError] = useState('')
+  const handleSubmit = async event => {
     event.preventDefault()
-    fetch('/api/register', {
+    const result = await fetch('/api/register', {
       method: 'POST',
       body: JSON.stringify({
         username: event.target.username.value,
@@ -20,9 +20,14 @@ export default function Home() {
         'Content-Type': 'application/json'
       },
     })
-    event.target.username.value = ''
-    event.target.password.value = ''
-    Router.push('/')
+    const { ok, issue } = await result.json()
+    if (!ok) {
+      setError(issue)
+    } else {
+      event.target.username.value = ''
+      event.target.password.value = ''
+      Router.push('/login') // redirect to logion
+    }
   }
   return (
     <div className={styles.container}>
@@ -43,6 +48,7 @@ export default function Home() {
             Password&nbsp;&nbsp;
             <input id="password" name="password" autoComplete="password" type="password"/>
           </label>
+          <label className={styles.warning}>{errorMsg}</label>
           <br></br>
           <input type="submit" value="Register"/>
         </form>

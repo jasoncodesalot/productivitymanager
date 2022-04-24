@@ -1,63 +1,58 @@
 /* Bordered form */
 .container {
-    border: 30px solid #97bef2;
+    border: 70px solid #f0f0f0;
   }
-  
   .header {
     font-family: "Georgia",serif;
-    padding: 40px;
+    padding: 60px;
     text-align: left;
-    background: #61A3F7;
+    background: #2e2e2e;
     color: white;
-    font-size: 60px;
-  
+    font-size: 30px;
   }
-  
   .login_label{
     font-family: "Georgia",serif;
     font-size: 15px;
+    padding: 10px 10px;
   }
-  
   .login_input {
     width: 100%;
     padding: 10px 4px;
-    margin: 5px 0;
+    margin: 5px 5;
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     box-sizing: border-box;
-    width: 10%;
+    width: 20%;
     text-align: middle;
   }
   .login_button {
-    background-color: #61A3F7;
+    background-color: #2e2e2e;
     color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
+    padding: 14px;
+    margin: 8px 8px;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 99%;
   }
-  
   .login_button:hover {
     opacity: 0.8;
   }
-  
   .registerbtn {
-    width: auto;
-    padding: 10px 18px;
     background-color: #66ccff;
+    color: white;
+    padding: 7px 10px;
+    margin: 8px 8px;
+    border: none;
+    cursor: pointer;
+    width: auto;
   }
-  
-  
   .login_container {
-    padding: 15px;
+    padding: 0px;
   }
-  
   .login_span.psw {
     float: right;
     padding-top: 16px;
   }
-  
   @media screen and (max-width: 300px) {
     span.psw {
       display: block;
