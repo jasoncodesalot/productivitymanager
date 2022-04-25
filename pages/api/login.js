@@ -1,4 +1,5 @@
-import { writeFile, readFile } from 'fs/promises'
+import { writeFile, readFile, access, mkdir } from 'fs/promises'
+import { constants } from 'fs'
 import { join } from 'path'
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -9,6 +10,11 @@ export default async function handler(req, res) {
       res.status(200).json({ ok: false, issue: 'Incorrect Login'})
       return
     } else {
+      const folderExists = await checkFileExists(join('data', req.body.username))
+      if (!folderExists) {
+        await mkdir(join('data', req.body.username))
+        await writeFile(join('data', req.body.username, 'example.json'), JSON.stringify({name: 'This is an example task', description: 'To add more tasks, use the create task button below'}))
+      }
       const path = join('logins', req.body.username)
       try {
         const file = await readFile(path)
@@ -36,4 +42,10 @@ function randomstring(L) {
   }
   while (s.length < L) s += randomchar();
   return s;
+}
+
+async function checkFileExists(file) {
+  return await access(file, constants.F_OK)
+           .then(() => true)
+           .catch(() => false)
 }

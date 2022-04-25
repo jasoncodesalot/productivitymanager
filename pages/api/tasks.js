@@ -12,11 +12,13 @@ export default async function handler(req, res) {
       const taskFiles = await readdir(folderName)
       const tasks = []
       for (const taskFile of taskFiles) {
-        tasks.push(await readFile(join('data', username, taskFile)).then(t => JSON.parse(t)))
+        const t = await readFile(join('data', username, taskFile)).then(t => JSON.parse(t))
+        t.id = taskFile
+        tasks.push(t)
       }
       res.status(200).json({ok: true, tasks})
     } catch (e) {
-      res.status(200).json({ ok: true, tasks: [{name: 'An error occurred', description: e.toString() }] })
+      res.status(200).json({ ok: false, tasks: [{name: 'An error occurred', description: e.toString() }] })
       return
     }
     // res.status(200).json({ok: true, tasks: [{name: 'Good', description: 'It works!'}]})

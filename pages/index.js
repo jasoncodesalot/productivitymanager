@@ -8,8 +8,9 @@ import { useRouter } from 'next/router';
 export default function Home() {
   const router = useRouter()
   const [username, setUsername] = useState('user')
-  const [tasks, setTasks] = useState([{name: 'Example Task',
-  description: 'Example description'}])
+  const [tasks, setTasks] = useState([{name: 'Example Task',  description: 'Example description'}])
+  const [btntext, setBtnText] = useState('Login')
+  const headertext = () => btntext === 'Login' ? 'Press login there →' : `Hello, welcome ${username}!`
   const handleRefresh = async () => {
     setUsername(localStorage.getItem('user'))
     const result = await fetch('/api/tasks', {
@@ -24,6 +25,7 @@ export default function Home() {
     const { ok, tasks } = await result.json()
     if (ok) {
       setTasks(tasks)
+      setBtnText('Logout')
     } else {
       // router.push('/login')
     }
@@ -54,12 +56,13 @@ export default function Home() {
     {/*Top Header of the Page*/}
     <header> 
       <div className={styles.header_container}>
-        <h1>Hello, welcome {username}!</h1>
-        <button onClick={logout} type="button" className={styles.button}>Logout</button>
+        <h1>{headertext()}</h1>
+        <button onClick={logout} type="button" className={styles.button}>{btntext}</button>
       </div>
     </header>
+    
     {/*Main Project Showcase*/}
-    <div className={styles.grid}>
+    <div className={styles.page} style={{display: btntext === 'Logout' ? 'block' : 'none' }}>
       <div className={styles.containers}>
         <div className={styles.project_container}>
           {tasks.map(task => <Task name={task.name} description={task.description} id={task.id} />)}
