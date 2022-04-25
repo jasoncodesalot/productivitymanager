@@ -26,7 +26,7 @@ export default function Home() {
     } else {
       event.target.username.value = ''
       event.target.password.value = ''
-      Router.push('/login') // redirect to logion
+      Router.push('/login') // redirect to login
     }
   }
   return (

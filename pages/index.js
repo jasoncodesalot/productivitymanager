@@ -1,32 +1,76 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Index.module.css'
-import Collapsible from '../components/Collapsible'
-if (typeof window !== 'undefined') {
-  // Perform localStorage action
-  var user = localStorage.getItem('user')
-}
+import Task from '../components/Task'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router';
 
-{/*document.getElementById('user').innerHTML = user;*/}
 export default function Home() {
+  const router = useRouter()
+  const [username, setUsername] = useState('user')
+  const [tasks, setTasks] = useState([{name: 'Example Task',
+  description: 'Example description'}])
+  const handleRefresh = async () => {
+    setUsername(localStorage.getItem('user'))
+    const result = await fetch('/api/tasks', {
+      method: 'POST',
+      body: JSON.stringify({
+        token: localStorage.getItem('token')
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    const { ok, tasks } = await result.json()
+    if (ok) {
+      setTasks(tasks)
+    } else {
+      // router.push('/login')
+    }
+  }
+  const logout = async e => {
+    e.preventDefault();
+    localStorage.clear();
+    router.push('/login')
+  }
+  const handleCreateTask = async e => {
+    e.preventDefault();
+    const result = await fetch('/api/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        token: localStorage.getItem('token'),
+        name: e.target.taskName.value,
+        description: e.target.taskDescription.value
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+  }
+  useEffect(() => {
+    handleRefresh()
+  })
   return (<>
     {/*Top Header of the Page*/}
     <header> 
       <div className={styles.header_container}>
-        <h1 id ="user">Hello, Welcome <span id="name"> </span> </h1>
-        
-        <button className={styles.logout}>Logout</button>
+        <h1>Hello, welcome {username}!</h1>
+        <button onClick={logout} type="button" className={styles.button}>Logout</button>
       </div>
     </header>
-
     {/*Main Project Showcase*/}
-    <div className={styles.page}>
-
-      <div className={styles.project_container}>
-        <Collapsible name="ABC" description="xyz"/>
-        <Collapsible name="ABC" description="xyz"/>
-        <Collapsible name="ABC" description="xyz"/>
-        <Collapsible name="ABC" description="xyz"/>
+    <div className={styles.grid}>
+      <div className={styles.containers}>
+        <div className={styles.project_container}>
+          {tasks.map(task => <Task name={task.name} description={task.description} id={task.id} />)}
+        </div>
+        <div className={styles.create_container}>
+          <form onSubmit={handleCreateTask} className={styles.inputs}>
+            <input className={styles.taskCreate} id="taskName" type="text" placeholder="Task Name" name="taskName" required></input>
+            <input className={styles.taskCreate} id="taskDescription" type="text" placeholder="Task Description" name="taskDescription" required></input>
+            <input type="submit" className={styles.createbtn} value="Create Task" />
+          </form>
+        </div>
       </div>
     </div>
   </>)

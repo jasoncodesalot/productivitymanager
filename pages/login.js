@@ -3,8 +3,6 @@ import Image from 'next/image'
 import styles from '../styles/Login.module.css'
 import Router from 'next/router';
 
-
-
 export default function Home() {
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -43,14 +41,17 @@ export default function Home() {
           <p>Hi, It's nice to meet you. Please log in.</p>
         </div>
       <form onSubmit={handleLogin}>
+        
         <label className={styles.login_label} for="username"><b>Username </b></label>
+        <br></br>
         <input className={styles.login_input} id="username" type="text" placeholder="Enter Username" name="username" required></input>
         <br></br>
         <label className={styles.login_label} for="psw"><b>Password </b></label>
+        <br></br>
         <input className={styles.login_input} id="password" type="password" placeholder="Enter Password" name="psw" required></input>
         <button className={styles.login_button} type="submit">Login</button>
       </form>
-      <button className={styles.registerbtn} type="submit">Register</button>
+      <button onClick={() => Router.push('/register')} className={styles.registerbtn} type="submit">Register</button>
     </div>
   )
 }

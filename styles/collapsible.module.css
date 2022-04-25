@@ -1,4 +1,11 @@
-/* Style the button that is used to open and close the collapsible content */
+.taskList {
+  display: grid;
+  grid-template-columns: 8fr 1fr;
+  grid-row-gap: 0px;
+  grid-column-gap: 5px;
+}
+
+/* Collapsible */
 .collapsible {
   background-color: #2e2e2e;
   color: white;
@@ -11,7 +18,7 @@
   font-size: 16px;
 }
 .active, .collapsible:hover {
-  border-left: 6px #ffffff solid;
+  opacity: 0.8;
 }
 .content {
   font-size: 13px;
@@ -20,4 +27,16 @@
   overflow: hidden;
   background-color: #c4c4c4;
   color: black;
+}
+
+/* Delete Button */
+.delete_button {
+  background-color: white;
+  border: none;
+  font-size: 18px;
+}
+.delete_button:hover {
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
 }
